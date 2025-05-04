@@ -1,0 +1,74 @@
+[tool.poetry]
+name = "reverse-platform"
+version = "0.1.0"
+description = "Monorepo: FastAPI backend, ML agents, Streamlit frontend, DevOps tools"
+authors = []
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "*"
+uvicorn = {extras = ["standard"], version = "*"}
+pydantic = {extras = ["email"], version = "*"}
+slowapi = "*"
+loguru = "*"
+python-json-logger = "*"
+redis = ">=5.0"
+celery = {extras = ["redis"], version = "*"}
+opentelemetry-api = "*"
+opentelemetry-sdk = "*"
+prometheus-fastapi-instrumentator = "*"
+starlette-context = "*"
+aiofiles = "*"
+httpx = {extras = ["http2"], version = "*"}
+tree-sitter = "0.22.*"
+pygments = "*"
+lz4 = "*"
+gitpython = "*"
+faiss-cpu = "*"
+pinecone-client = "*"
+openai = "*"
+google-api-python-client = "*"
+langchain = "*"
+tiktoken = "*"
+together = "*" 
+sentence-transformers = "*"
+graphviz = "*"
+py2neo = "*"
+networkx = "*"
+streamlit = ">=1.33"
+streamlit-code-editor = "*"
+# streamlit-i18n = "*"  # SUPPRIMÉ car ce package n'existe pas sur PyPI, utiliser un module Python local
+streamlit-extras = "*"
+# streamlit-d3 = "*"  # SUPPRIMÉ car ce package n'existe pas sur PyPI, utiliser un composant local
+websockets = "*"
+opentelemetry-instrumentation-fastapi = "*"
+opentelemetry-exporter-otlp = "*"
+# grafana-loki = "*"  # SUPPRIMÉ car aucun package Loki Python maintenu compatible 3.12
+python-dotenv = "*"
+tqdm = "*"
+orjson = "*"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "*"
+pytest-asyncio = "*"
+coverage = "*"
+black = "*"
+isort = "*"
+mypy = "*"
+pre-commit = "*"
+playwright = "*"
+pytest-playwright = "*"
+bandit = "*"
+pip-audit = "*"
+codecov = "*"
+types-requests = "*"
+types-redis = "*"
+types-PyYAML = "*"
+termcolor = "^3.1.0"
+pytest-cov = "*"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

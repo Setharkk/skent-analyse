@@ -1,0 +1,7 @@
+# bug.yaml — Template de règle bug
+- pattern: "== None"
+  severity: "medium"
+  message: "Utilisation de '== None' au lieu de 'is None'"
+  example: "if x == None:"
+  fix: "if x is None:"
+  tags: ["bug", "python"]

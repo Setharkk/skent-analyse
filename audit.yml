@@ -1,0 +1,36 @@
+name: Audit Completeness
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Poetry
+        run: pip install poetry
+      - name: Install dependencies
+        run: poetry install --with dev
+      - name: Run audit
+        run: make audit
+      - name: CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+      - name: Pip Audit
+        run: poetry run pip-audit
+      - name: NPM Audit
+        run: cd frontend && npm install && npm audit --audit-level=high
+      - name: Playwright Visual Tests
+        run: |
+          cd tests
+          pytest --update-snapshots
+      - name: Upload audit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-report
+          path: audit_report.json

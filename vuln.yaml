@@ -1,0 +1,7 @@
+# vuln.yaml — Template de règle vulnérabilité
+- pattern: "eval("
+  severity: "high"
+  message: "Usage dangereux de eval()"
+  example: "eval(user_input)"
+  fix: "Utiliser ast.literal_eval ou une alternative sûre"
+  tags: ["vuln", "python"]

@@ -1,0 +1,5 @@
+db_url: postgresql://user:pass@db:5432/reverse
+redis_url: redis://cache:6379/0
+batch_size: 5000
+lz4_level: 1
+max_workers: 8

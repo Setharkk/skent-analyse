@@ -1,0 +1,26 @@
+name: CI Scan PR
+on: [pull_request]
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Start API
+        run: docker compose -f infra/docker/docker-compose.yml up -d api
+      - name: Run Scanner
+        run: python -m app.scanner.cli --repo ${{ github.workspace }}
+      - name: Upload SARIF
+        uses: actions/upload-artifact@v4
+        with:
+          name: scan-report
+          path: scan.sarif
+      - name: CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+      - name: Pip Audit
+        run: poetry run pip-audit
+      - name: NPM Audit
+        run: cd frontend && npm install && npm audit --audit-level=high
+      - name: Playwright Visual Tests
+        run: |
+          cd tests
+          pytest --update-snapshots

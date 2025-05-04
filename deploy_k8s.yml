@@ -1,0 +1,19 @@
+name: Deploy to K8s
+on:
+  push:
+    branches: [main]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build & Push API
+        run: |
+          docker build -t $REGISTRY/reverse-api:latest -f infra/docker/Dockerfile.api .
+          docker push $REGISTRY/reverse-api:latest
+      - name: Build & Push Worker
+        run: |
+          docker build -t $REGISTRY/reverse-worker:latest -f infra/celery/Dockerfile.worker .
+          docker push $REGISTRY/reverse-worker:latest
+      - name: Helm Upgrade
+        run: helm upgrade --install reverse-platform ./infra/k8s --set api.image=$REGISTRY/reverse-api:latest --set worker.image=$REGISTRY/reverse-worker:latest

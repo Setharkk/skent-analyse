@@ -1,0 +1,7 @@
+# smell.yaml — Template de règle code smell
+- pattern: "print("
+  severity: "low"
+  message: "Appel à print() détecté dans le code de production"
+  example: "print('debug')"
+  fix: "Utiliser un logger structuré"
+  tags: ["smell", "python"]

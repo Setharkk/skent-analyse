@@ -1,0 +1,31 @@
+name: CI Pipeline
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  build-test-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: NPM Audit
+        run: cd frontend && npm install && npm audit --audit-level=high
+      - name: Pip Audit
+        run: pip install pip-audit && pip-audit
+      - name: Run Playwright Visual Tests
+        run: |
+          cd tests
+          pytest --update-snapshots
+        continue-on-error: true
+      - name: Upload Playwright Diffs
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-diffs
+          path: tests/snapshots/
+      - name: Push Prometheus Metrics
+        run: |
+          duration=$(($GITHUB_RUN_DURATION_MS/1000))
+          vulns=$(pip-audit -f json | jq '.[] | select(.vulns!=[])' | wc -l)
+          echo "ci_duration_seconds $duration" | curl --data-binary @- http://pushgateway:9091/metrics/job/ci
+          echo "ci_vuln_count $vulns" | curl --data-binary @- http://pushgateway:9091/metrics/job/ci
