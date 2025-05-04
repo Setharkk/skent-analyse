@@ -1,0 +1,10 @@
+{
+  "files_missing": [],
+  "deps_missing": [],
+  "infra_issues": [],
+  "ci_issues": [
+    "Badge badge build missing in README"
+  ],
+  "coverage": 0.17,
+  "status": "fail"
+}
